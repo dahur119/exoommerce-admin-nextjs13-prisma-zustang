@@ -1,22 +1,46 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
-
 datasource db {
   provider = "mysql"
-  url = "mysql://9e2p6xlholtwnnoaxp1m:pscale_pw_fha4tMi2RMcAM0Pd7b6EeBZ4BZFoq7PRFlFri0C9FkS@aws.connect.psdb.cloud/ecommerce-admin?sslaccept=strict"
+  url = "mysql://xuysbxrhjjjk4jepvy2m:pscale_pw_vlGMeQafuY4FCYVslioZVmcsxf7HfdToZtORcKm92Gm@aws.connect.psdb.cloud/ecommerce-admin?sslaccept=strict"
   relationMode = "prisma"
 }
 
-
 model Store {
-  id        String    @id @default(cuid())
+  id        String    @id @default(uuid())
   name      String
   userId    String    @unique
+  billboards      Billboard[] @relation("StoreToBillboard")
+  categories  Category[] @relation("StoreToCategory")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+model Billboard {
+  id          String @id @default(uuid())
+  storeId     String
+  store       Store @relation("StoreToBillboard", fields: [storeId], references: [id])
+  label       String
+  imageUrl    String
+  categories Category[] // Renamed the field to lowercase 'c'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([storeId])
+}
+
+model Category {
+  id          String @id @default(uuid())
+  storeId     String
+  store       Store @relation("StoreToCategory", fields: [storeId], references: [id])
+  billboardId String
+  billboard   Billboard @relation(fields: [billboardId], references: [id]) // Changed references to [id]
+  name String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([billboardId])
 }

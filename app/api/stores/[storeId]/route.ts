@@ -3,7 +3,6 @@ import { auth } from "@clerk/nextjs";
 
 import prismadb from "@/lib/prismadb";
 
-
 export async function PATCH(
   req: Request,
   { params }: { params: { storeId: string } }
@@ -32,17 +31,16 @@ export async function PATCH(
         userId,
       },
       data: {
-        name
-      }
+        name,
+      },
     });
-  
+
     return NextResponse.json(store);
   } catch (error) {
-    console.log('[STORE_PATCH]', error);
+    console.log("[STORE_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
-};
-
+}
 
 export async function DELETE(
   req: Request,
@@ -62,13 +60,13 @@ export async function DELETE(
     const store = await prismadb.store.deleteMany({
       where: {
         id: params.storeId,
-        userId
-      }
+        userId,
+      },
     });
-  
+
     return NextResponse.json(store);
   } catch (error) {
-    console.log('[STORE_DELETE]', error);
+    console.log("[STORE_DELETE]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
-};
+}
