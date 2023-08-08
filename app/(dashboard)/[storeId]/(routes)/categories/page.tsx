@@ -11,7 +11,9 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
     include: {
       billboard: true,
     },
-    orderBy: {},
+    orderBy: {
+      createdAt:"desc"
+    },
   });
 
   const formattedCategory: CategoryColumn[] = categories.map((item) => ({
@@ -25,7 +27,7 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
       <div className="flex-3 space-y-4 p-8">
         <CategoryClient data={formattedCategory} />
       </div>
-    </div>
+    </div> 
   );
 };
 export default CategoriesPage;

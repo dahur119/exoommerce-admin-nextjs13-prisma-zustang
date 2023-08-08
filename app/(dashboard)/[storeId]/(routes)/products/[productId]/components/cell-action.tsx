@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import { DropdownMenu, DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
-import { CategoryColumn } from "../../components/columns";
+import { BillboardColumn } from "../../components/columns";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -15,7 +15,7 @@ import { useState } from "react";
 import { AlertModal } from "@/components/modals/alert-modal";
 
 interface CellActionProps {
-  data: CategoryColumn;
+  data: BillboardColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -26,18 +26,18 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Category ID copied to clipboard.");
+    toast.success("Billboard ID copied to clipboard.");
   };
 
   const onConfirm = async () => {
     try {
       setIsLoading(true);
       await axios.delete(
-        `/api/${params.storeId}/categories/${params.billboardId}`
+        `/api/${params.storeId}/billboards/${params.billboardId}`
       );
       router.refresh();
-      router.push(`/${params.storeId}/categories`);
-      toast.success("Category deleted.");
+      router.push(`/${params.storeId}/billboards`);
+      toast.success("Billboard deleted.");
     } catch (error: any) {
       toast.error(
         "Make sure you removed all categories using this billboard first."
@@ -70,7 +70,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/${params.storeId}/categories/${data.id}`)
+              router.push(`/${params.storeId}/billboards/${data.id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" /> Update
